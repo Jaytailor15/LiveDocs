@@ -1,16 +1,16 @@
 'use client';
 
-import { ClientSideSuspense, RoomProvider } from '@liveblocks/react/suspense'
-import { Editor } from '@/components/editor/Editor'
-import Header from '@/components/Header'
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
-import ActiveCollaborators from './ActiveCollaborators';
-import { useEffect, useRef, useState } from 'react';
-import { Input } from './ui/input';
-import Image from 'next/image';
+import { Editor } from '@/components/editor/Editor';
+import Header from '@/components/Header';
 import { updateDocument } from '@/lib/actions/room.actions';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import { ClientSideSuspense, RoomProvider } from '@liveblocks/react/suspense';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+import ActiveCollaborators from './ActiveCollaborators';
 import Loader from './Loader';
 import ShareModal from './ShareModal';
+import { Input } from './ui/input';
 
 const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: CollaborativeRoomProps) => {
   const [documentTitle, setDocumentTitle] = useState(roomMetadata.title);
@@ -18,7 +18,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
   const [loading, setLoading] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);  // Corrected to HTMLInputElement
 
   const updateTitleHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter') {
@@ -69,7 +69,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
           <Header>
             <div ref={containerRef} className="flex w-fit items-center justify-center gap-2">
               {editing && !loading ? (
-                <Input 
+                <Input
                   type="text"
                   value={documentTitle}
                   ref={inputRef}
@@ -120,7 +120,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
               </SignedIn>
             </div>
           </Header>
-        <Editor roomId={roomId} currentUserType={currentUserType} />
+          <Editor roomId={roomId} currentUserType={currentUserType} />
         </div>
       </ClientSideSuspense>
     </RoomProvider>
